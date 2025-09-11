@@ -37,10 +37,27 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Permite ajustar atributos de widgets de formulários diretamente nas templates.
+
+    # pip install django-widget-tweaks
+    # pip install django-crispy-forms
+    # pip install crispy-bootstrap5
+
+    'widget_tweaks',
+
+    'crispy_forms',
+
+    'crispy_bootstrap5',
+
+
+    # Minhas aplicações 
     'estoque',
     'loja',
     'usuarios',
     'noticias',
+
+
     
     
 ]
@@ -60,11 +77,11 @@ ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'], # Adicione esta linha se não existir
+        'DIRS': [BASE_DIR / 'templates'], 
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                'django.template.context_processors.debug',  # Adicione esta linha se não existir
+                'django.template.context_processors.debug',  
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
@@ -105,6 +122,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Crispy Forms  
+# Configuração do Crispy Forms  
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5" 
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
