@@ -1,0 +1,37 @@
+{% extends "estoque/_base.html" %}
+
+{% comment %} Extende o Template Base  {% endcomment %}
+
+{% comment %} Titulo da Página {% endcomment %}
+
+{% block title %} Pagina Inicial - TechUp {% endblock title%}
+
+{% comment %} Adiciona um conjunto de CSS especifico {% endcomment %}
+
+{% block extra_css%}
+    
+    {{block.super}}
+
+{% endblock extra_css%}
+
+{% comment %} Conteúdo da Página {% endcomment %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-md-4"></div>
+
+        <div class="col-md-4">
+            <table class="table">
+                <tr>
+                    <td>Produto</td> <td> {{ produto.nome }}</td>
+                </tr>
+            </table>
+        </div>
+            
+        <div class="col-md-4"></div>
+
+    </div>
+        
+
+{% endblock content %}

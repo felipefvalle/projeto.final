@@ -1,0 +1,61 @@
+{% extends "estoque/_base.html" %}
+
+{% comment %} Extende o Template Base  {% endcomment %}
+
+{% comment %} Titulo da Página {% endcomment %}
+
+{% block title %} Pagina Inicial - TechUp {% endblock title%}
+
+{% comment %} Adiciona um conjunto de CSS especifico {% endcomment %}
+
+{% block extra_css%}
+    
+    {{block.super}}
+
+{% endblock extra_css%}
+
+{% comment %} Conteúdo da Página {% endcomment %}
+
+{% block content %}
+
+    <div class="table-responsive-lg">
+    <table class="table table-hover align-middle shadow-sm rounded-4 overflow-hidden">
+        <thead class="bg-primary bg-gradient text-white">
+            <tr class="text-center">
+                <th scope="col" style="width: 15%">Imagem</th>
+                <th scope="col" style="width: 25%">Nome do Produto</th>
+                <th scope="col" style="width: 20%">Categoria</th>
+                <th scope="col" style="width: 10%">Preço</th>
+                <th scope="col" style="width: 10%">Estoque</th>
+                <th scope="col" style="width: 10%">Status</th>
+                <th scope="col" style="width: 10%">Ações</th>
+            </tr>
+        </thead>
+
+              <tbody>
+
+            {% for produto in produtos %}
+
+            <tr colspan= "7" class= "text-center">
+                <td> 
+                    <img src='{{ produtos.imagem.url }}' style="width: 80px; height: 80px; object-fit: cover;">
+                </td>
+
+                <td> {{ produto.nome }} </td>
+                <td> {{ produto.categoria_produto }} </td>
+                <td> R$ {{ produto.preco }} </td>
+                <td> {{ produto.qt_estoque}} </td>
+                <td> Status </td>
+                <td> <a href="{% url 'estoque:produto_detail' produto.pk %}"> Exibir </a> View | Edit | Delete </td>
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+        
+
+
+
+{% endblock content %}
