@@ -1,42 +1,39 @@
 {% extends 'estoque/base.html' %}
 
-{% block title %}Estoque - Loja de Eletronicos{% endblock %}
-
-{% block extra_css %}
-    {{ block.super }} 
-
-{% endblock %}
+{% block title %}Categoria: {{ categoria.identificacao }}{% endblock %}
 
 {% block content %}
-
-<div class="row">
-    <div class="col-md-6">
-        {% if produto.imagem %}
-        <img src="{{ produto.imagem.url }}" class="img-fluid rounded" alt="{{ produto.nome }}">
-        {% else %}
-        <img src="https://via.placeholder.com/600x400.png?text=Sem+Imagem" class="img-fluid rounded" alt="Sem Imagem">
-        {% endif %}
-    </div>
-    <div class="col-md-6">
-        <h1>{{ produto.nome }}</h1>
-        <p class="lead">{{ produto.descricao }}</p>
-        <hr>
-        <h3><strong>Preço:</strong> R$ {{ produto.preco }}</h3>
-        <p><strong>Em estoque:</strong> {{ produto.estoque }} unidades</p>
-        <p><strong>Status:</strong> {% if produto.disponivel %}Disponível{% else %}Indisponível{% endif %}</p>
-        <p><strong>Categoria:</strong> {{ produto.categoria.identificacao|default:"N/A" }}</p>
-        <div>
-            <strong>Tags:</strong>
-            {% for tag in produto.tag.all %}
-            <span class="badge bg-secondary">{{ tag.identificacao }}</span>
-            {% empty %}
-            <span class="badge bg-light text-dark">Nenhuma tag</span>
-            {% endfor %}
-        </div>
-        <hr>
-        <a href="{% url 'estoque:produto_update' produto.pk %}" class="btn btn-warning">Editar Produto</a>
-        <a href="{% url 'estoque:produto_list' %}" class="btn btn-secondary">Voltar para a Lista</a>
-    </div>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Categoria: {{ categoria.identificacao }}</h1>
+    <a href="{% url 'estoque:categoria-list' %}" class="btn btn-secondary">← Voltar para Categorias</a>
 </div>
 
+<h3 class="mb-4">Produtos desta categoria</h3>
+
+<div class="row">
+    {% for produto in produtos %}
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            {% if produto.imagem %}
+            <img src="{{ produto.imagem.url }}" class="card-img-top" alt="{{ produto.nome }}" style="height: 200px; object-fit: cover;">
+            {% else %}
+            <img src="https://placehold.co/300x200.png?text=Sem+Imagem" class="card-img-top" alt="Sem Imagem">
+            {% endif %}
+            <div class="card-body d-flex flex-column">
+                <h5 class="card-title">{{ produto.nome }}</h5>
+                <h6 class="card-subtitle mb-2">R$ {{ produto.preco }}</h6>
+                <div class="mt-auto">
+                    <a href="{% url 'estoque:produto_detail' produto.pk %}" class="btn btn-primary btn-sm">Detalhes</a>
+                    <a href="{% url 'estoque:produto_update' produto.pk %}" class="btn btn-warning btn-sm">Editar</a>
+                    <a href="{% url 'estoque:produto_delete' produto.pk %}" class="btn btn-danger btn-sm">Deletar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col">
+        <p class="text-center">Nenhum produto nesta categoria.</p>
+    </div>
+    {% endfor %}
+</div>
 {% endblock %}

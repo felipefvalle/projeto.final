@@ -22,13 +22,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
-    #App para forms 
-    
     'widget_tweaks',
-
-    #Nossos apps 
-
     'blog',
     'estoque',
     'loja',
