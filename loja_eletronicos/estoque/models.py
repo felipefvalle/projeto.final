@@ -111,7 +111,7 @@ class Produto(models.Model):
     
     tag = models.ManyToManyField (
         Protuto_Tag,
-        related_name="produto_tags"
+        related_name="produtos"
     )
     
     def __str__(self):

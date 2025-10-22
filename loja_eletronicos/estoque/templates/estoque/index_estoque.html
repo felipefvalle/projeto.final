@@ -1,22 +1,509 @@
 {% extends 'estoque/base.html' %}
 
-{% block title %}Página Inicial - Minha Loja{% endblock %}
+{% block title %}Dashboard - Sistema de Gestão de Estoque{% endblock %}
 
-{% block extra_css %}
-    {{ block.super }} 
+{% block custom_css %}
+{{ block.super }}
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+    --primary: #ffb347;
+    --primary-hover: #ffcc70;
+    --accent: #ff7043;
+    --success: #4ade80;
+    --warning: #fbbf24;
+    --info: #60a5fa;
+    --bg-dark: #0a0a0b;
+    --bg-card: #1a1a1d;
+    --bg-card-hover: #1e1e22;
+    --text-light: #f8fafc;
+    --text-muted: #94a3b8;
+    --border: rgba(255,255,255,0.08);
+    --shadow: 0 20px 40px rgba(0,0,0,0.35);
+    --gradient-primary: linear-gradient(135deg, var(--primary), var(--accent));
+    --gradient-card: linear-gradient(145deg, var(--bg-card), #121215);
+}
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--bg-dark);
+    color: var(--text-light);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* ===== HERO SECTION PREMIUM ===== */
+.hero {
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(255,179,71,0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255,112,67,0.15) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(255,179,71,0.1) 0%, transparent 50%),
+        linear-gradient(135deg, #0f0f11 0%, #1a1a1f 100%);
+    border-radius: 24px;
+    text-align: center;
+    padding: 120px 40px;
+    margin: 30px 0 80px 0;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+}
+
+.hero::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255,255,255,0.03), 
+        transparent);
+    animation: shine 8s ease-in-out infinite;
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: 
+        radial-gradient(800px circle at 20% 20%, rgba(255,179,71,0.08), transparent 50%),
+        radial-gradient(600px circle at 80% 80%, rgba(255,112,67,0.08), transparent 50%);
+    pointer-events: none;
+}
+
+@keyframes shine {
+    0%, 100% { left: -100%; }
+    50% { left: 100%; }
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.hero h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 3.5rem;
+    font-weight: 800;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 24px;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+
+.hero p.lead {
+    color: var(--text-muted);
+    font-size: 1.3rem;
+    margin-bottom: 40px;
+    font-weight: 400;
+    line-height: 1.6;
+}
+
+.hero hr {
+    width: 80px;
+    height: 4px;
+    margin: 32px auto;
+    border: none;
+    background: var(--gradient-primary);
+    border-radius: 2px;
+    opacity: 0.8;
+}
+
+/* ===== BOTÕES PREMIUM ===== */
+.btn-primary {
+    background: var(--gradient-primary);
+    border: none;
+    padding: 16px 40px;
+    font-weight: 600;
+    border-radius: 50px;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 
+        0 8px 25px rgba(255,179,71,0.3),
+        inset 0 1px 0 rgba(255,255,255,0.2);
+    position: relative;
+    overflow: hidden;
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
+}
+
+.btn-primary::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255,255,255,0.2), 
+        transparent);
+    transition: left 0.6s ease;
+}
+
+.btn-primary:hover::before {
+    left: 100%;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 
+        0 15px 35px rgba(255,179,71,0.4),
+        inset 0 1px 0 rgba(255,255,255,0.3);
+}
+
+/* ===== FEATURE CARDS PREMIUM ===== */
+.features-grid {
+    margin: 80px 0;
+}
+
+.feature-card {
+    background: var(--gradient-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+}
+
+.feature-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--gradient-primary);
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+}
+
+.feature-card::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255,179,71,0.05), rgba(255,112,67,0.05));
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow);
+    border-color: var(--primary);
+    background: var(--bg-card-hover);
+}
+
+.feature-card:hover::before {
+    transform: scaleX(1);
+}
+
+.feature-card:hover::after {
+    opacity: 1;
+}
+
+.feature-card i {
+    color: var(--primary);
+    font-size: 3.2rem;
+    margin-bottom: 20px;
+    transition: all 0.4s ease;
+    position: relative;
+    z-index: 2;
+}
+
+.feature-card:hover i {
+    transform: scale(1.1) rotate(5deg);
+    color: var(--accent);
+}
+
+.feature-card .card-title {
+    font-weight: 700;
+    color: var(--text-light);
+    margin-bottom: 16px;
+    font-size: 1.3rem;
+    position: relative;
+    z-index: 2;
+}
+
+.feature-card .card-text {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-bottom: 24px;
+    line-height: 1.6;
+    position: relative;
+    z-index: 2;
+}
+
+.feature-card .card-link {
+    color: var(--primary);
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 2;
+    font-size: 0.95rem;
+}
+
+.feature-card .card-link:hover {
+    color: var(--accent);
+}
+
+/* ===== QUICK ACTIONS PREMIUM ===== */
+.quick-actions {
+    margin: 80px 0;
+}
+
+.quick-actions .card {
+    background: var(--gradient-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.quick-actions .card:hover {
+    border-color: var(--primary);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow);
+}
+
+.quick-actions .card-title {
+    color: var(--text-light);
+    font-weight: 700;
+    margin-bottom: 24px;
+    font-size: 1.25rem;
+}
+
+.quick-actions .btn {
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 12px 20px;
+    font-weight: 500;
+}
+
+.quick-actions .btn:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary);
+    box-shadow: 0 8px 20px rgba(255,179,71,0.2);
+}
+
+/* ===== RESPONSIVIDADE AVANÇADA ===== */
+@media (max-width: 1200px) {
+    .hero h1 {
+        font-size: 3rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero {
+        padding: 80px 20px;
+        margin: 20px 0 60px 0;
+    }
+    
+    .hero h1 {
+        font-size: 2.2rem;
+    }
+    
+    .hero p.lead {
+        font-size: 1.1rem;
+    }
+    
+    .feature-card {
+        padding: 2rem 1.5rem;
+    }
+    
+    .btn-primary {
+        padding: 14px 32px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero h1 {
+        font-size: 1.8rem;
+    }
+    
+    .quick-actions .btn {
+        font-size: 0.9rem;
+        padding: 10px 16px;
+    }
+}
+
+/* ===== ANIMAÇÕES DE ENTRADA ===== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeInUp 0.8s ease-out forwards;
+}
+
+/* ===== SCROLLBAR PERSONALIZADA ===== */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--gradient-primary);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent);
+}
+</style>
 {% endblock %}
 
 {% block content %}
-    <div class="jumbotron text-center bg-light p-5 rounded">
-        <h1 class="display-4">Bem-vindo à gestão de estoque</h1>
-        <p class="lead">Os melhores produtos, são gerenciados aqui.</p>
-        <hr class="my-4">
-        <p>Gerencie os produtos oferecidos aos seus clientes</p>
-        <a class="btn btn-primary btn-lg" 
-            href="{% url 'estoque:produto_list' %}" 
-            role="button">
-            Ver Produtos
+<!-- Hero Section Premium -->
+<section class="hero">
+    <div class="hero-content">
+        <h1 class="fade-in">Bem-vindo à Gestão de Estoque</h1>
+        <p class="lead fade-in">Os melhores produtos, agora gerenciados com eficiência e estilo.</p>
+        <hr class="fade-in">
+        <a href="{% url 'estoque:produto_list' %}" class="btn btn-primary btn-lg fade-in">
+            <i class="bi bi-box-arrow-in-right me-2"></i> Ver Produtos
         </a>
     </div>
+</section>
+
+<!-- Features Grid -->
+<section class="features-grid">
+    <div class="row g-4">
+        <div class="col-lg-4 col-md-6">
+            <div class="feature-card fade-in">
+                <i class="bi bi-box-seam"></i>
+                <h5 class="card-title">Gerencie Produtos</h5>
+                <p class="card-text">Adicione, edite ou remova produtos facilmente com nosso sistema intuitivo.</p>
+                <a href="{% url 'estoque:produto_list' %}" class="card-link">
+                    Gerenciar Produtos
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <div class="feature-card fade-in">
+                <i class="bi bi-diagram-3"></i>
+                <h5 class="card-title">Categorias Organizadas</h5>
+                <p class="card-text">Classifique seus produtos por categorias e tags para fácil organização.</p>
+                <a href="{% url 'estoque:categoria-list' %}" class="card-link">
+                    Ver Categorias
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <div class="feature-card fade-in">
+                <i class="bi bi-tags"></i>
+                <h5 class="card-title">Controle de Tags</h5>
+                <p class="card-text">Filtre e organize produtos rapidamente com nosso sistema de tags.</p>
+                <a href="{% url 'estoque:tags-list' %}" class="card-link">
+                    Gerenciar Tags
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block custom_js %}
+{{ block.super }}
+<script>
+// Sistema de Animações Simplificado
+class DashboardAnimator {
+    constructor() {
+        this.init();
+    }
+
+    init() {
+        this.setupIntersectionObserver();
+        this.setupSmoothAnimations();
+    }
+
+    setupIntersectionObserver() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        document.querySelectorAll('.feature-card, .quick-actions .card').forEach(el => {
+            observer.observe(el);
+        });
+    }
+
+    setupSmoothAnimations() {
+        // Efeito de parallax suave no hero
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero');
+            if (hero) {
+                hero.style.transform = `translateY(${scrolled * 0.1}px)`;
+            }
+        });
+
+        // Efeito de hover dinâmico nos cards
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(-8px)';
+            });
+        });
+    }
+}
+
+// Inicializar dashboard quando o DOM estiver pronto
+document.addEventListener('DOMContentLoaded', () => {
+    new DashboardAnimator();
+});
+
+// Sistema de notificações em tempo real (exemplo)
+class DashboardNotifications {
+    static showWelcome() {
+        if (!localStorage.getItem('welcomeShown')) {
+            setTimeout(() => {
+                console.log('🎉 Bem-vindo ao Sistema de Estoque!');
+                localStorage.setItem('welcomeShown', 'true');
+            }, 1000);
+        }
+    }
+}
+
+// Inicializar notificações
+DashboardNotifications.showWelcome();
+</script>
 {% endblock %}

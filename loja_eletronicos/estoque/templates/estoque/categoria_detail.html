@@ -1,28 +1,261 @@
 {% extends 'estoque/base.html' %}
 
-{% block title %}Categoria: {{ categoria.identificacao }}{% endblock %}
+{% block title %}Categoria: {{ categoria.identificacao }} - Loja de Eletrônicos{% endblock %}
+
+{% block extra_css %}
+{{ block.super }}
+<style>
+    /* ---------- Layout geral ---------- */
+    body {
+        background-color: #f8f9fa;
+    }
+
+    main.container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    /* ---------- Cabeçalho da categoria ---------- */
+    .category-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1.25rem;
+        margin-bottom: 2.5rem;
+        padding: 2rem 2.25rem;
+        background: linear-gradient(135deg, rgba(255,155,62,0.12), rgba(180,87,0,0.07));
+        border-radius: 16px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+    }
+
+    .category-header h1 {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        font-weight: 700;
+        font-size: 2rem;
+        color: #2b2b2b;
+        margin: 0;
+    }
+
+    .category-header h1 i {
+        color: rgb(255,155,62);
+        font-size: 1.8rem;
+    }
+
+    .category-header .btn {
+        background-color: #6c757d;
+        border: none;
+        font-weight: 500;
+        padding: 0.6rem 1.25rem;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+    }
+
+    .category-header .btn:hover {
+        background-color: #5a6268;
+        transform: translateY(-2px);
+        box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    }
+
+    /* ---------- Seção de resumo ---------- */
+    .category-summary {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-bottom: 2rem;
+        padding: 0 0.5rem;
+    }
+
+    .category-summary h3 {
+        color: #444;
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin: 0;
+    }
+
+    .category-summary p {
+        margin: 0;
+        font-size: 1rem;
+        color: #555;
+    }
+
+    .category-summary span {
+        font-weight: 700;
+        color: rgb(180,87,0);
+    }
+
+    /* ---------- Cards ---------- */
+    .product-card {
+        border: none;
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        transition: all 0.35s ease;
+        height: 100%;
+        background: #fff;
+    }
+
+    .product-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 10px 22px rgba(0,0,0,0.15);
+    }
+
+    .product-card img {
+        height: 230px;
+        width: 100%;
+        object-fit: cover;
+        border-bottom: 1px solid #eee;
+        transition: transform 0.4s ease, filter 0.4s ease;
+    }
+
+    .product-card:hover img {
+        filter: brightness(0.92);
+        transform: scale(1.04);
+    }
+
+    .card-body {
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 0.75rem;
+    }
+
+    .card-title {
+        font-size: 1.15rem;
+        font-weight: 600;
+        color: #222;
+        margin-bottom: 0.25rem;
+    }
+
+    .card-subtitle {
+        font-size: 1rem;
+        color: #666;
+    }
+
+    /* ---------- Botões ---------- */
+    .card-body .btn {
+        border: none;
+        transition: all 0.3s ease;
+        flex: 1;
+        border-radius: 10px;
+        padding: 0.45rem 0.8rem;
+    }
+
+    .card-body .btn + .btn {
+        margin-left: 0.4rem;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, rgb(255,155,62), rgb(180,87,0));
+        color: #fff;
+    }
+
+    .btn-primary:hover {
+        background: linear-gradient(135deg, rgb(255,170,80), rgb(190,97,20));
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(255,155,62,0.3);
+    }
+
+    .btn-warning {
+        background-color: #f0ad4e;
+        color: #fff;
+    }
+
+    .btn-warning:hover {
+        background-color: #ec971f;
+        transform: translateY(-2px);
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        color: #fff;
+    }
+
+    .btn-danger:hover {
+        background-color: #c82333;
+        transform: translateY(-2px);
+    }
+
+    /* ---------- Mensagem de vazio ---------- */
+    .empty-message {
+        text-align: center;
+        color: #777;
+        font-style: italic;
+        margin-top: 3rem;
+        font-size: 1.1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .empty-message i {
+        font-size: 2.2rem;
+        color: #ccc;
+    }
+
+    /* ---------- Responsividade ---------- */
+    @media (max-width: 768px) {
+        .category-header {
+            padding: 1.25rem 1.5rem;
+        }
+
+        .category-header h1 {
+            font-size: 1.6rem;
+        }
+
+        .card-body {
+            padding: 1.25rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .category-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .category-summary {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+    }
+</style>
+{% endblock %}
 
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h1>Categoria: {{ categoria.identificacao }}</h1>
-    <a href="{% url 'estoque:categoria-list' %}" class="btn btn-secondary">← Voltar para Categorias</a>
+<div class="category-header">
+    <h1><i class="bi bi-tags"></i> {{ categoria.identificacao }}</h1>
+    <a href="{% url 'estoque:categoria-list' %}" class="btn btn-secondary">
+        ← Voltar para Categorias
+    </a>
 </div>
 
-<h3 class="mb-4">Produtos desta categoria</h3>
+<div class="category-summary">
+    <h3>Produtos desta categoria</h3>
+    <p>Total de produtos: <span>{{ produtos|length }}</span></p>
+</div>
 
-<div class="row">
+<div class="row g-4">
     {% for produto in produtos %}
-    <div class="col-md-4 mb-4">
-        <div class="card h-100">
+    <div class="col-sm-6 col-md-4 col-lg-3">
+        <div class="card product-card">
             {% if produto.imagem %}
-            <img src="{{ produto.imagem.url }}" class="card-img-top" alt="{{ produto.nome }}" style="height: 200px; object-fit: cover;">
+            <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}" class="card-img-top">
             {% else %}
-            <img src="https://placehold.co/300x200.png?text=Sem+Imagem" class="card-img-top" alt="Sem Imagem">
+            <img src="https://placehold.co/400x300?text=Sem+Imagem" alt="Sem Imagem" class="card-img-top">
             {% endif %}
-            <div class="card-body d-flex flex-column">
-                <h5 class="card-title">{{ produto.nome }}</h5>
-                <h6 class="card-subtitle mb-2">R$ {{ produto.preco }}</h6>
-                <div class="mt-auto">
+            <div class="card-body">
+                <div>
+                    <h5 class="card-title">{{ produto.nome }}</h5>
+                    <h6 class="card-subtitle">R$ {{ produto.preco|floatformat:2 }}</h6>
+                </div>
+                <div class="mt-3 d-flex justify-content-between">
                     <a href="{% url 'estoque:produto_detail' produto.pk %}" class="btn btn-primary btn-sm">Detalhes</a>
                     <a href="{% url 'estoque:produto_update' produto.pk %}" class="btn btn-warning btn-sm">Editar</a>
                     <a href="{% url 'estoque:produto_delete' produto.pk %}" class="btn btn-danger btn-sm">Deletar</a>
@@ -31,8 +264,11 @@
         </div>
     </div>
     {% empty %}
-    <div class="col">
-        <p class="text-center">Nenhum produto nesta categoria.</p>
+    <div class="col-12">
+        <div class="empty-message">
+            <i class="bi bi-box-seam"></i>
+            <p>Nenhum produto cadastrado nesta categoria.</p>
+        </div>
     </div>
     {% endfor %}
 </div>

@@ -1,0 +1,54 @@
+{% extends 'estoque/base.html' %}
+
+{% block title %}Registrar - Minha Loja{% endblock %}
+
+{% block custom_css %}
+{{ block.super }}
+<style>
+    .auth-card {
+        max-width: 400px;
+        margin: 50px auto;
+        padding: 30px;
+        border-radius: 15px;
+        background-color: #212529;
+        color: #fff;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+    }
+    .auth-card input {
+        border-radius: 8px;
+        padding: 10px;
+    }
+    .auth-card button {
+        border-radius: 8px;
+        background-color: #ff9800;
+        border-color: #ff9800;
+    }
+    .auth-card button:hover {
+        background-color: #ffb74d;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="auth-card text-center">
+    <h2 class="mb-4">Registrar Nova Conta</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} text-start">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3 text-start">
+            {{ form.username.label_tag }}
+            {{ form.username }}
+        </div>
+        <div class="mb-3 text-start">
+            {{ form.password1.label_tag }}
+            {{ form.password1 }}
+        </div>
+        <div class="mb-3 text-start">
+            {{ form.password2.label_tag }}
+            {{ form

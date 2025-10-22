@@ -49,7 +49,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
+        'DIRS': [BASE_DIR / "templates"],  # pasta global
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -61,6 +61,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
@@ -134,3 +135,12 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# URL para o login
+LOGIN_URL = '/contas/login/'
+
+# Após login, para onde o usuário será redirecionado
+LOGIN_REDIRECT_URL = '/estoque/categorias/'
+
+# Após logout, para onde o usuário será redirecionado
+LOGOUT_REDIRECT_URL = '/contas/login/'
