@@ -10,12 +10,12 @@ app_name = 'estoque'
 urlpatterns = [
     # O caminho vazio '' significa a raiz da nossa aplicação 'produtos'
     path('', views.index, name='index'),
-    path('teste/', views.teste, name='este'),
+    #path('teste/', views.teste, name='este'),
 
     ##
     # Produtos
     ##
-
+    #path('', views.produto_list, name='index-estoque'),  # rota /estoque/
     path('produtos/', views.ProdutoListView.as_view(), name='produto_list'),
     path('produtos/listar/', views.ProdutoTabelaListView.as_view(), name='produto_tabela_list'),
     path('produtos/<int:pk>/', views.ProdutoDetailView.as_view(), name='produto_detail'),

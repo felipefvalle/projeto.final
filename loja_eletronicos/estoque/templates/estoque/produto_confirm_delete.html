@@ -1,24 +1,129 @@
 {% extends 'estoque/base.html' %}
 {% load widget_tweaks %}
 
-{% block title %}Estoque - Loja de Eletronicos{% endblock %}
+{% block title %}Excluir Produto - Loja de Eletrônicos{% endblock %}
 
 {% block extra_css %}
-    {{ block.super }} 
+{{ block.super }}
+<style>
+    /* Container principal */
+    .delete-container {
+        max-width: 600px;
+        margin: 4rem auto;
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        padding: 2.5rem;
+        text-align: center;
+        animation: fadeIn 0.4s ease-in-out;
+    }
 
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Título + ícone */
+    .delete-header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.6rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .delete-header h1 {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #c82333;
+        margin: 0;
+    }
+
+    .warning-icon {
+        font-size: 2rem;
+        color: #dc3545;
+        animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.15); opacity: 0.8; }
+    }
+
+    .delete-container p {
+        color: #555;
+        margin-bottom: 0.75rem;
+    }
+
+    .delete-container strong {
+        color: #000;
+    }
+
+    /* Botões */
+    .delete-actions {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-top: 1.8rem;
+        flex-wrap: wrap;
+    }
+
+    .delete-container .btn {
+        padding: 0.6rem 1.4rem;
+        font-weight: 500;
+        border: none;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-danger {
+        background: linear-gradient(135deg, #dc3545, #b52b38);
+        color: #fff;
+    }
+
+    .btn-danger:hover {
+        background: linear-gradient(135deg, #e05260, #c03945);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(220,53,69,0.3);
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        color: #fff;
+    }
+
+    .btn-secondary:hover {
+        background-color: #5a6268;
+        transform: translateY(-2px);
+    }
+</style>
 {% endblock %}
 
 {% block content %}
-<div class="card bg-light p-4">
-    <h1 class="card-title">Confirmar Exclusão</h1>
-    <p class="lead">Você tem certeza que deseja deletar o produto <strong>"{{ produto.nome }}"</strong>?</p>
-    <p>Esta ação não poderá ser desfeita.</p>
+<div class="delete-container">
+    <div class="delete-header">
+        
+        <h1>Confirmar Exclusão</h1> 
+    </div>
 
-    <form method="post">
+    <p class="lead">Tem certeza de que deseja excluir o produto <strong>"{{ produto.nome }}"</strong>?</p>
+    <p>Esta ação é <strong>irreversível</strong> e removerá permanentemente o produto do sistema.</p>
+
+    <form id="deleteForm" method="post" class="delete-actions">
         {% csrf_token %}
-        <button type="submit" class="btn btn-danger">Sim, tenho certeza</button>
+        <button type="submit" class="btn btn-danger">Sim, excluir definitivamente</button>
         <a href="{% url 'estoque:produto_detail' produto.pk %}" class="btn btn-secondary">Cancelar</a>
     </form>
 </div>
 
+<script>
+    // Confirmação JavaScript
+    document.getElementById('deleteForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const confirmDelete = confirm("⚠️ Tem certeza de que deseja excluir este produto? Esta ação não poderá ser desfeita.");
+        if (confirmDelete) {
+            this.submit();
+        }
+    });
+</script>
 {% endblock %}
