@@ -144,7 +144,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = '/contas/login/'
 
 # Após login, para onde o usuário será redirecionado
-LOGIN_REDIRECT_URL = '/estoque/categorias/'
+LOGIN_REDIRECT_URL = '/estoque/'
 
 # Após logout, para onde o usuário será redirecionado
 LOGOUT_REDIRECT_URL = '/contas/login/'
