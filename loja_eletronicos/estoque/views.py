@@ -229,7 +229,7 @@ class TagUpdateView(UpdateView):
     template_name = 'estoque/tag_form.html'
     fields = ['identificacao', 'descricao']
     context_object_name = 'tag'
-    success_url = reverse_lazy('estoque:tag-list')
+    success_url = reverse_lazy('estoque:tags-list')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -242,7 +242,7 @@ class TagDeleteView(DeleteView):
     model = Protuto_Tag
     template_name = 'estoque/tag_delete.html'
     context_object_name = 'tag'
-    success_url = reverse_lazy('estoque:tag-list')
+    success_url = reverse_lazy('estoque:tags-list')
 
 
 
